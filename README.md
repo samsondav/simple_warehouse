@@ -3,8 +3,7 @@ This is a simple command line warehouse management tool. The user can record the
 It accepts the following 7 commands:
 
 - help - Shows the help message
-- init W H - (Re)Initialises the application with a W x H rack of shelves, with all spaces
-- empty.
+- init W H - (Re)Initialises the application with a W x H rack of shelves, with all spaces empty.
 - store X Y W H P - Stores a crate of product code P and of size W x H at position X,Y.
 - locate P - Show a list of positions where product code P can be found.
 - remove X Y - Remove the crate at positon X,Y.

@@ -1,24 +1,37 @@
 # frozen_string_literal: true
 
+require_relative './store'
+require_relative './commands'
+
+$warehouse = nil # rubocop:disable Style/GlobalVars
+
 class SimpleWarehouse
   def run
     @live = true
     puts 'Type `help` for instructions on usage'
     while @live
       print '> '
-      command = gets.chomp
-      case command
-        when 'help'
-          show_help_message
-        when 'exit'
-          exit
-        else
-          show_unrecognized_message
+      cmd_string = gets.chomp
+      case cmd_string
+      when 'help'
+        show_help_message
+      when 'exit'
+        exit
+      else
+        execute(cmd_string)
       end
     end
   end
 
   private
+
+  def execute(cmd_string)
+    command = Command.parse(cmd_string)
+    output = command.execute
+    puts output
+  rescue ArgumentError
+    show_unrecognized_message
+  end
 
   def show_help_message
     puts 'help             Shows this help message

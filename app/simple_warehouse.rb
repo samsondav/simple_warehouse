@@ -1,5 +1,6 @@
-class SimpleWarehouse
+# frozen_string_literal: true
 
+class SimpleWarehouse
   def run
     @live = true
     puts 'Type `help` for instructions on usage'

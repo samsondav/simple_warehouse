@@ -4,4 +4,8 @@ class Product
     @height = height
     @product_code = product_code
   end
+
+  def code?(product_code)
+    @product_code == product_code
+  end
 end

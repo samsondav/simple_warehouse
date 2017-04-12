@@ -50,16 +50,29 @@ class StoreCommand < Command
     assert_arguments_size(5, args)
     assert_warehouse_initialized
 
-    @x           = Integer(args[0])
-    @y           = Integer(args[1])
+    @position    = Position.new(args[0], args[1])
+
     width        = args[2]
     height       = args[3]
     product_code = args[4]
-
     @product     = Product.new(width, height, product_code)
   end
 
   def execute
-    $warehouse.store(@product)
+    $warehouse.store(@product, @position)
+  end
+end
+
+class LocateCommand < Command
+  def initialize(args)
+    assert_arguments_size(1, args)
+    assert_warehouse_initialized
+
+    @product_code = args[0]
+  end
+
+  def execute
+    positions = $warehouse.positions_with_product_code(@product)
+    puts "Positions: #{positions.map(&:inspect).join(', ')}"
   end
 end

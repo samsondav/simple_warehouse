@@ -3,7 +3,7 @@
 require_relative './store'
 require_relative './commands'
 
-$warehouse = nil # rubocop:disable Style/GlobalVars
+$warehouse = nil
 
 class SimpleWarehouse
   def run

@@ -6,9 +6,9 @@ require_relative './crate'
 class WarehouseGrid
   attr_reader :width, :height, :grid
 
-  OutOfBounds = Class.new(StandardError)
+  OutOfBounds      = Class.new(StandardError)
   PositionOccupied = Class.new(StandardError)
-  NoCrateHere = Class.new(StandardError)
+  NoCrateHere      = Class.new(StandardError)
 
   def initialize(width, height)
     @width  = Integer width
@@ -19,12 +19,8 @@ class WarehouseGrid
   end
 
   def store(crate, position)
-    raise unless crate.is_a?(Crate)
-    raise unless position.is_a?(Position)
-
-    x, y = position.coordinates
-    raise OutOfBounds if x + crate.width > @width || y + crate.height > @height
-    raise PositionOccupied unless @grid.dig(x, y).nil?
+    assert_crate_in_bounds(crate, position)
+    assert_position_unoccupied(position)
 
     (0...crate.width).each do |x_offset|
       (0...crate.height).each do |y_offset|
@@ -36,11 +32,15 @@ class WarehouseGrid
   end
 
   def remove(position)
+    assert_position_in_bounds(position)
+
     crate = @grid[position.x][position.y]
 
     @grid.each_with_index do |row, x|
       row.each_with_index do |this_crate, y|
-        next unless crate.equal?(this_crate) # use `equal?` NOT `==` because we are looking for the exact same object, not a matching size/product code
+        # Use `equal?` NOT `==` because we are looking for the exact same
+        # object, not a matching size/product code
+        next unless crate.equal?(this_crate)
         @grid[x][y] = nil
       end
     end
@@ -81,5 +81,31 @@ class WarehouseGrid
     end
 
     rendered
+  end
+
+  private
+
+  def assert_crate_in_bounds(crate, position)
+    raise OutOfBounds if crate_out_of_bounds?(crate, position)
+  end
+
+  def assert_position_unoccupied(position)
+    raise PositionOccupied if position_occupied?(position)
+  end
+
+  def assert_position_in_bounds(position)
+    raise OutOfBounds if position_out_of_bounds?(position)
+  end
+
+  def crate_out_of_bounds?(crate, position)
+    position.x + crate.width > @width || position.y + crate.height > @height
+  end
+
+  def position_occupied?(position)
+    !@grid.dig(position.x, position.y).nil?
+  end
+
+  def position_out_of_bounds?(position)
+    position.x > @width || position.y > @height
   end
 end

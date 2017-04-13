@@ -2,13 +2,14 @@
 
 class Position
   attr_reader :x, :y
+
   def initialize(x, y)
     @x = Integer(x)
     @y = Integer(y)
   end
 
   def coordinates
-    [@x, @y]
+    [x, y]
   end
 
   def ==(other)

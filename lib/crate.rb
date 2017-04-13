@@ -16,7 +16,7 @@ class Crate
     @product_code == product_code
   end
 
-  # NOTE: Use equal? to see if it is the exact same crate
+  # NOTE: Use equal? instead to see if it is the exact same crate
   def ==(other)
     width == other.width &&
       height == other.height &&

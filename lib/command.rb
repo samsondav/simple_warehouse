@@ -59,6 +59,8 @@ class Command
     'Done'
   rescue WarehouseGrid::NoCrateHere
     "There's no crate at this position!"
+  rescue WarehouseGrid::OutOfBounds
+    'Those coordinates are outside of the warehouse!'
   end
 
   def view

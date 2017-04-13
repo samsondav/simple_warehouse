@@ -113,6 +113,18 @@ RSpec.describe WarehouseGrid do
   describe '#remove' do
     let(:warehouse) { populated_warehouse }
 
+    it 'raises out of bounds if x value is outside grid' do
+      position = Position.new(10, 2)
+
+      expect { warehouse.remove(position) }.to raise_error(WarehouseGrid::OutOfBounds)
+    end
+
+    it 'raises out of bounds if y value is outside grid' do
+      position = Position.new(2, 10)
+
+      expect { warehouse.remove(position) }.to raise_error(WarehouseGrid::OutOfBounds)
+    end
+
     it 'returns a crate' do
       expect(warehouse.remove(Position.new(0, 0))).to be_a(Crate)
     end

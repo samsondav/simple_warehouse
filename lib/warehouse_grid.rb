@@ -66,4 +66,18 @@ class WarehouseGrid
 
     positions
   end
+
+  def view
+    rendered = String.new
+
+    @grid.reverse_each do |row|
+      row.each do |crate|
+        cell = crate.nil? ? "_" : crate.product_code
+        rendered << cell
+      end
+      rendered << "\n"
+    end
+
+    rendered
+  end
 end

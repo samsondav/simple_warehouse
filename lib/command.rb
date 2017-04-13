@@ -54,20 +54,6 @@ class Command
   end
 
   def view
-    $warehouse.inspect
-  end
-end
-
-class RemoveCommand < Command
-  def initialize(args)
-    assert_arguments_size(2, args)
-    assert_warehouse_initialized
-
-    @product_code = args[0]
-  end
-
-  def execute
-    positions = $warehouse.positions_with_product_code(@product)
-    "Positions: #{positions.map(&:inspect).join(', ')}"
+    $warehouse.view
   end
 end

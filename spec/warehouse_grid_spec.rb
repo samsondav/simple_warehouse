@@ -136,5 +136,15 @@ RSpec.describe WarehouseGrid do
       end.to raise_error(WarehouseGrid::NoCrateHere)
     end
   end
+
+  describe '#view' do
+    it 'renders empty warehouse' do
+      expect(empty_warehouse.view).to eq("_____\n_____\n_____\n_____\n_____\n")
+    end
+
+    it 'renders warehouse with crates' do
+      expect(populated_warehouse.view).to eq("____A\n__CC_\n__CC_\n_____\nA__B_\n")
+    end
+  end
 end
 

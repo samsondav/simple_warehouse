@@ -70,5 +70,13 @@ RSpec.describe Command do
         expect(Command.new('remove 1 2').execute).to eq('Done')
       end
     end
+
+    describe 'view' do
+      it 'calls WarehouseGrid#view' do
+        expect($warehouse).to receive(:view) { "<view>" }
+
+        expect(Command.new('view').execute).to eq("<view>")
+      end
+    end
   end
 end

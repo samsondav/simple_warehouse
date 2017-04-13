@@ -25,8 +25,8 @@ RSpec.describe Command do
       expect($warehouse.grid.map(&:compact)).to all be_empty
     end
 
-    it 'renders output' do
-      expect(Command.new('init 1 2').execute).to eq('Done')
+    it 'renders view on success' do
+      expect(Command.new('init 1 2').execute).to eq($warehouse.view)
     end
   end
 
@@ -42,8 +42,8 @@ RSpec.describe Command do
         Command.new('store 1 2 3 4 A').execute
       end
 
-      it 'renders correct output' do
-        expect(Command.new('store 1 1 1 1 A').execute).to eq('Done')
+      it 'renders view on success' do
+        expect(Command.new('store 1 1 1 1 A').execute).to eq($warehouse.view)
       end
     end
 
@@ -70,10 +70,10 @@ RSpec.describe Command do
         Command.new('remove 1 2').execute
       end
 
-      it 'renders correct output' do
+      it 'renders view on success' do
         expect($warehouse).to receive(:remove).with(Position.new(1, 2)) { Crate.new(1, 2, 'A') }
 
-        expect(Command.new('remove 1 2').execute).to eq('Done')
+        expect(Command.new('remove 1 2').execute).to eq($warehouse.view)
       end
     end
 

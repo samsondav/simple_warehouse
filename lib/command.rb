@@ -26,7 +26,7 @@ class Command
 
   def init(height, width)
     $warehouse = WarehouseGrid.new(height, width)
-    'Done'
+    view
   end
 
   def store(x, y, width, height, product_code)
@@ -36,7 +36,7 @@ class Command
     crate    = Crate.new(width, height, product_code)
 
     $warehouse.store(crate, position)
-    'Done'
+    view
   rescue WarehouseGrid::OutOfBounds
     "Can't store crate here, it exceeds the bounds of the warehouse!"
   rescue WarehouseGrid::PositionOccupied
@@ -56,7 +56,7 @@ class Command
     position = Position.new(x, y)
 
     $warehouse.remove(position)
-    'Done'
+    view
   rescue WarehouseGrid::NoCrateHere
     "There's no crate at this position!"
   rescue WarehouseGrid::OutOfBounds

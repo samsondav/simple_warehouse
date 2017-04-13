@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'spec_helper'
 
 RSpec.describe Command do
@@ -24,7 +26,7 @@ RSpec.describe Command do
     end
 
     it 'renders output' do
-      expect(Command.new('init 1 2').execute).to eq("Done")
+      expect(Command.new('init 1 2').execute).to eq('Done')
     end
   end
 
@@ -47,7 +49,7 @@ RSpec.describe Command do
 
     describe 'locate' do
       it 'calls WarehouseGrid#locate with correct arguments' do
-        expect($warehouse).to receive(:locate).with('P') { Set.new() }
+        expect($warehouse).to receive(:locate).with('P') { Set.new }
 
         Command.new('locate P').execute
       end
@@ -57,7 +59,7 @@ RSpec.describe Command do
           [Position.new(0, 0), Position.new(1, 2), Position.new(5, 1)].to_set
         end
 
-        expect(Command.new('locate P').execute).to eq("Positions: [0, 0], [1, 2], [5, 1]")
+        expect(Command.new('locate P').execute).to eq('Positions: [0, 0], [1, 2], [5, 1]')
       end
     end
 
@@ -77,9 +79,9 @@ RSpec.describe Command do
 
     describe 'view' do
       it 'calls WarehouseGrid#view' do
-        expect($warehouse).to receive(:view) { "<view>" }
+        expect($warehouse).to receive(:view) { '<view>' }
 
-        expect(Command.new('view').execute).to eq("<view>")
+        expect(Command.new('view').execute).to eq('<view>')
       end
     end
   end
@@ -87,27 +89,26 @@ RSpec.describe Command do
   context 'with uninitialized warehouse' do
     describe 'store' do
       it 'raises error' do
-        expect{ Command.new('store 1 2 3 4 A').execute }.to raise_error(Command::RequiresInitializedWarehouse)
+        expect { Command.new('store 1 2 3 4 A').execute }.to raise_error(Command::RequiresInitializedWarehouse)
       end
     end
 
     describe 'locate' do
       it 'raises error' do
-        expect{ Command.new('locate P').execute }.to raise_error(Command::RequiresInitializedWarehouse)
+        expect { Command.new('locate P').execute }.to raise_error(Command::RequiresInitializedWarehouse)
       end
     end
 
     describe 'view' do
       it 'raises error' do
-        expect{ Command.new('view').execute }.to raise_error(Command::RequiresInitializedWarehouse)
+        expect { Command.new('view').execute }.to raise_error(Command::RequiresInitializedWarehouse)
       end
     end
 
     describe 'remove' do
       it 'raises error' do
-        expect{ Command.new('remove 1 2').execute }.to raise_error(Command::RequiresInitializedWarehouse)
+        expect { Command.new('remove 1 2').execute }.to raise_error(Command::RequiresInitializedWarehouse)
       end
     end
-
   end
 end

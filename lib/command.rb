@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Command
   RECOGNIZED_COMMANDS = %w[init store locate remove view].freeze
 
@@ -24,7 +26,7 @@ class Command
 
   def init(height, width)
     $warehouse = WarehouseGrid.new(height, width)
-    "Done"
+    'Done'
   end
 
   def store(x, y, width, height, product_code)
@@ -34,7 +36,7 @@ class Command
     crate    = Crate.new(width, height, product_code)
 
     $warehouse.store(crate, position)
-    "Done"
+    'Done'
   rescue WarehouseGrid::OutOfBounds
     "Can't store crate here, it exceeds the bounds of the warehouse!"
   rescue WarehouseGrid::PositionOccupied
@@ -54,7 +56,7 @@ class Command
     position = Position.new(x, y)
 
     $warehouse.remove(position)
-    "Done"
+    'Done'
   rescue WarehouseGrid::NoCrateHere
     "There's no crate at this position!"
   end

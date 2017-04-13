@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative './position'
 require_relative './crate'
 
@@ -68,11 +70,11 @@ class WarehouseGrid
   end
 
   def view
-    rendered = String.new
+    rendered = ''
 
     @grid.reverse_each do |row|
       row.each do |crate|
-        cell = crate.nil? ? "_" : crate.product_code
+        cell = crate.nil? ? '_' : crate.product_code
         rendered << cell
       end
       rendered << "\n"

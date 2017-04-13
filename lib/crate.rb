@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Crate
   attr_reader :width, :height, :product_code
 

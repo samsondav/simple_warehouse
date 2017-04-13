@@ -47,7 +47,7 @@ exit             Exits the application.'
   end
 
   def show_invalid_arguments_message
-    puts "Invalid arguments. Type `help` for instructions on usage"
+    puts 'Invalid arguments. Type `help` for instructions on usage'
   end
 
   def show_unrecognized_message
@@ -55,7 +55,7 @@ exit             Exits the application.'
   end
 
   def show_uninitialized_message
-    puts "Warehouse has not been initialized. Type `help` for instructions on usage"
+    puts 'Warehouse has not been initialized. Type `help` for instructions on usage'
   end
 
   def exit

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Position
   attr_reader :x, :y
   def initialize(x, y)

@@ -1,3 +1,5 @@
+# Intro
+
 This is a simple command line warehouse management tool. The user can record the storage and removal of crates of variable size on a rack of shelves.
 
 It accepts the following 7 commands:
@@ -17,3 +19,13 @@ The user should also be shown an error message when:
 - Trying to store a crate at a position which doesn't exist.
 - Trying to store a crate which doesn't fit.
 - Trying to remove a crate which doesn't exist.
+
+# Usage
+
+`bundle exec ruby runner.rb`
+
+# Tests
+
+`bundle exec rspec`
+
+

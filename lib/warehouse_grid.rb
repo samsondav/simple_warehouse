@@ -35,12 +35,20 @@ class WarehouseGrid
 
   def remove(position)
     crate = @grid[position.x][position.y]
+
+    @grid.each_with_index do |row, x|
+      row.each_with_index do |this_crate, y|
+        next unless crate.equal?(this_crate) # use `equal?` NOT `==` because we are looking for the exact same object, not a matching size/product code
+        @grid[x][y] = nil
+      end
+    end
+
     raise NoCrateHere if crate.nil?
     @grid[position.x][position.y] = nil
     crate
   end
 
-  def positions_with_product_code(product_code)
+  def locate(product_code)
     positions       = Set.new
     recorded_crates = Set.new
 

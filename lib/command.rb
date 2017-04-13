@@ -34,13 +34,13 @@ class Command
     crate    = Crate.new(width, height, product_code)
 
     $warehouse.store(crate, position)
-    "done"
+    "Done"
   end
 
   def locate(product_code)
     assert_warehouse_initialized
 
-    positions = $warehouse.positions_with_product_code(product_code)
+    positions = $warehouse.locate(product_code)
     "Positions: #{positions.map(&:inspect).join(', ')}"
   end
 
@@ -50,7 +50,7 @@ class Command
     position = Position.new(x, y)
 
     $warehouse.remove(position)
-    "done"
+    "Done"
   end
 
   def view

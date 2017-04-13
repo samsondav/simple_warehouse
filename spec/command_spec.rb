@@ -42,18 +42,32 @@ RSpec.describe Command do
     end
 
     describe 'locate' do
-      it 'calls WarehouseGrid#positions_with_product_code with correct arguments' do
-        expect($warehouse).to receive(:positions_with_product_code).with('P') { Set.new() }
+      it 'calls WarehouseGrid#locate with correct arguments' do
+        expect($warehouse).to receive(:locate).with('P') { Set.new() }
 
         Command.new('locate P').execute
       end
 
       it 'renders correct locations' do
-        expect($warehouse).to receive(:positions_with_product_code) do
+        expect($warehouse).to receive(:locate) do
           [Position.new(0, 0), Position.new(1, 2), Position.new(5, 1)].to_set
         end
 
         expect(Command.new('locate P').execute).to eq("Positions: [0, 0], [1, 2], [5, 1]")
+      end
+    end
+
+    describe 'remove' do
+      it 'calls WarehouseGrid#remove with correct arguments' do
+        expect($warehouse).to receive(:remove).with(Position.new(1, 2))
+
+        Command.new('remove 1 2').execute
+      end
+
+      it 'renders correct output' do
+        expect($warehouse).to receive(:remove).with(Position.new(1, 2)) { Crate.new(1, 2, 'A') }
+
+        expect(Command.new('remove 1 2').execute).to eq('Done')
       end
     end
   end

@@ -20,6 +20,10 @@ The user should also be shown an error message when:
 - Trying to store a crate which doesn't fit.
 - Trying to remove a crate which doesn't exist.
 
+# Implementation Notes
+
+The warehouse is represented here as a global variable for simplicity. In a real-world application it would probably be better implemented using some other sort of shared state like a database server.
+
 # Usage
 
 `bundle exec ruby runner.rb`

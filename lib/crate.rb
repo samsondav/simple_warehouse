@@ -4,8 +4,8 @@ class Crate
   attr_reader :width, :height, :product_code
 
   def initialize(width, height, product_code)
-    @width  = Integer width
-    @height = Integer height
+    @width        = Integer width
+    @height       = Integer height
     @product_code = product_code
 
     assert_valid_dimensions
@@ -30,10 +30,10 @@ class Crate
   private
 
   def assert_valid_product_code
-    raise ArgumentError, 'product_code must be a one letter string' unless product_code.is_a?(String) && product_code.length == 1
+    raise ArgumentError, 'product code must be a single letter' unless product_code.is_a?(String) && product_code.length == 1
   end
 
   def assert_valid_dimensions
-    raise ArgumentError, 'width and height must both be at least 1' unless width > 0 && height > 0
+    raise ArgumentError, 'width and height must both be positive integers' unless width.positive? && height.positive?
   end
 end

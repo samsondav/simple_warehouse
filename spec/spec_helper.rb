@@ -1,4 +1,5 @@
 require_relative '../lib/app'
+require 'pry'
 
 RSpec.configure do |config|
   config.before(:example) do |_example|

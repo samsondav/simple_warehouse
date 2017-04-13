@@ -2,7 +2,7 @@ require_relative './position'
 require_relative './crate'
 
 class WarehouseGrid
-  attr_reader :width, :height
+  attr_reader :width, :height, :grid
 
   OutOfBounds = Class.new(StandardError)
   PositionOccupied = Class.new(StandardError)
@@ -21,10 +21,16 @@ class WarehouseGrid
     raise unless position.is_a?(Position)
 
     x, y = position.coordinates
-    raise OutOfBounds if x > @width || y > @height
+    raise OutOfBounds if x + crate.width > @width || y + crate.height > @height
     raise PositionOccupied unless @grid.dig(x, y).nil?
 
-    @grid[position.x][position.y] = crate
+    (0...crate.width).each do |x_offset|
+      (0...crate.height).each do |y_offset|
+        @grid[position.x + x_offset][position.y + y_offset] = crate
+      end
+    end
+
+    crate
   end
 
   def remove(position)
@@ -35,12 +41,21 @@ class WarehouseGrid
   end
 
   def positions_with_product_code(product_code)
-    positions = []
+    positions       = Set.new
+    recorded_crates = Set.new
+
     @grid.each_with_index do |row, x|
       row.each_with_index do |crate, y|
-        positions << Position.new(x, y) if crate.product_code?(product_code)
+        next if crate.nil? || recorded_crates.include?(crate) || !crate.product_code?(product_code)
+
+        # This records the correct position since we work upwards in width and
+        # height, so we always get the bottom left corner of any one crate
+        # first
+        positions       << Position.new(x, y)
+        recorded_crates << crate
       end
     end
+
     positions
   end
 end

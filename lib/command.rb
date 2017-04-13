@@ -1,5 +1,5 @@
 class Command
-  RECOGNIZED_COMMANDS = %w[init store remove view].freeze
+  RECOGNIZED_COMMANDS = %w[init store locate remove view].freeze
 
   UnknownCommand               = Class.new(StandardError)
   RequiresInitializedWarehouse = Class.new(StandardError)

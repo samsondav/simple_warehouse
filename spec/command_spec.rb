@@ -20,37 +20,41 @@ RSpec.describe Command do
       expect($warehouse).to be_a(WarehouseGrid)
       expect($warehouse.width).to eq(1)
       expect($warehouse.height).to eq(2)
-      expect($warehouse.instance_variable_get(:@grid).map(&:compact)).to all be_empty
+      expect($warehouse.grid.map(&:compact)).to all be_empty
     end
   end
 
-  context 'with initialized warehouse' do
+  context '(with initialized warehouse)' do
     before(:each) do
       $warehouse = WarehouseGrid.new(5, 5)
     end
 
     describe 'store' do
-      it 'stores a crate of product number at the specified position' do
-        Command.new('store 2 2 50 60 ABC').execute
+      it 'calls WarehouseGrid#store with correct arguments' do
+        expect($warehouse).to receive(:store).with(Crate.new(3, 4, 'A'), Position.new(1, 2))
 
-        crate = $warehouse.remove(Position.new(2, 2))
-
-        expect(crate.height).to eq(60)
-        expect(crate.width).to eq(50)
-        expect(crate.product_code).to eq('ABC')
+        Command.new('store 1 2 3 4 A').execute
       end
 
-      it 'does not store crate if one is already present' do
-        Command.new('store 2 2 50 60 ABC').execute
-
-        expect do
-          Command.new('store 2 2 50 60 ABC').execute
-        end.to raise_error(WarehouseGrid::PositionOccupied)
+      it 'renders correct output' do
+        expect(Command.new('store 1 1 1 1 A').execute).to eq('Done')
       end
     end
 
     describe 'locate' do
-      it 'Show a list of positions where product code P can be found'
+      it 'calls WarehouseGrid#positions_with_product_code with correct arguments' do
+        expect($warehouse).to receive(:positions_with_product_code).with('P') { Set.new() }
+
+        Command.new('locate P').execute
+      end
+
+      it 'renders correct locations' do
+        expect($warehouse).to receive(:positions_with_product_code) do
+          [Position.new(0, 0), Position.new(1, 2), Position.new(5, 1)].to_set
+        end
+
+        expect(Command.new('locate P').execute).to eq("Positions: [0, 0], [1, 2], [5, 1]")
+      end
     end
   end
 end

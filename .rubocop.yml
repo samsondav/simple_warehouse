@@ -1,2 +1,5 @@
 Style/GlobalVars:
-  AllowedVariables: warehouse
+  AllowedVariables: $warehouse
+
+AllCops:
+  TargetRubyVersion: 2.4

@@ -8,4 +8,13 @@ class Position
   def coordinates
     [@x, @y]
   end
+
+  def ==(other)
+    other.x == x &&
+      other.y == y
+  end
+
+  def inspect
+    "[#{x}, #{y}]"
+  end
 end

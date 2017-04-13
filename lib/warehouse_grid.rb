@@ -35,6 +35,7 @@ class WarehouseGrid
     assert_position_in_bounds(position)
 
     crate = @grid[position.x][position.y]
+    raise NoCrateHere if crate.nil?
 
     @grid.each_with_index do |row, x|
       row.each_with_index do |this_crate, y|
@@ -45,24 +46,22 @@ class WarehouseGrid
       end
     end
 
-    raise NoCrateHere if crate.nil?
-    @grid[position.x][position.y] = nil
     crate
   end
 
   def locate(product_code)
-    positions       = Set.new
-    recorded_crates = Set.new
+    positions      = Set.new
+    located_crates = Set.new
 
     @grid.each_with_index do |row, x|
       row.each_with_index do |crate, y|
-        next if crate.nil? || recorded_crates.include?(crate) || !crate.product_code?(product_code)
+        next if crate.nil? || located_crates.include?(crate) || !crate.product_code?(product_code)
 
         # This records the correct position since we work upwards in width and
         # height, so we always get the bottom left corner of any one crate
         # first
-        positions       << Position.new(x, y)
-        recorded_crates << crate
+        positions      << Position.new(x, y)
+        located_crates << crate
       end
     end
 

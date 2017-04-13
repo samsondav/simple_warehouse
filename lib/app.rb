@@ -26,11 +26,14 @@ class App
   private
 
   def execute(cmd_string)
-    command = Command.parse(cmd_string)
-    output = command.execute
-    puts output
+    command = Command.new(cmd_string)
+    puts command.execute
   rescue ArgumentError
+    show_invalid_arguments_message
+  rescue Command::UnknownCommand
     show_unrecognized_message
+  rescue Command::RequiresInitializedWarehouse
+    show_uninitialized_message
   end
 
   def show_help_message
@@ -43,13 +46,20 @@ view             Show a representation of the current state of the warehouse, ma
 exit             Exits the application.'
   end
 
+  def show_invalid_arguments_message
+    puts "Invalid arguments. Type `help` for instructions on usage"
+  end
+
   def show_unrecognized_message
     puts 'Command not found. Type `help` for instructions on usage'
+  end
+
+  def show_uninitialized_message
+    puts "Warehouse has not been initialized. Type `help` for instructions on usage"
   end
 
   def exit
     puts 'Thank you for using simple_warehouse!'
     @live = false
   end
-
 end

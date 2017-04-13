@@ -22,6 +22,10 @@ RSpec.describe Command do
       expect($warehouse.height).to eq(2)
       expect($warehouse.grid.map(&:compact)).to all be_empty
     end
+
+    it 'renders output' do
+      expect(Command.new('init 1 2')).to eq("Done")
+    end
   end
 
   context '(with initialized warehouse)' do
@@ -78,5 +82,32 @@ RSpec.describe Command do
         expect(Command.new('view').execute).to eq("<view>")
       end
     end
+  end
+
+  context 'with uninitialized warehouse' do
+    describe 'store' do
+      it 'raises error' do
+        expect{ Command.new('store 1 2 3 4 A').execute }.to raise_error(Command::RequiresInitializedWarehouse)
+      end
+    end
+
+    describe 'locate' do
+      it 'raises error' do
+        expect{ Command.new('locate P').execute }.to raise_error(Command::RequiresInitializedWarehouse)
+      end
+    end
+
+    describe 'view' do
+      it 'raises error' do
+        expect{ Command.new('view').execute }.to raise_error(Command::RequiresInitializedWarehouse)
+      end
+    end
+
+    describe 'remove' do
+      it 'raises error' do
+        expect{ Command.new('remove 1 2').execute }.to raise_error(Command::RequiresInitializedWarehouse)
+      end
+    end
+
   end
 end

@@ -1,4 +1,4 @@
 require 'pry'
-require_relative './lib/simple_warehouse'
+require_relative './lib/app'
 
-SimpleWarehouse.new.run
+App.new.run

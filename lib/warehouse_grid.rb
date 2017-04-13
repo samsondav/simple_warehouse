@@ -1,33 +1,44 @@
 require_relative './position'
-require_relative './product'
+require_relative './crate'
 
 class WarehouseGrid
+  attr_reader :width, :height
+
   OutOfBounds = Class.new(StandardError)
   PositionOccupied = Class.new(StandardError)
+  NoCrateHere = Class.new(StandardError)
 
   def initialize(width, height)
-    @width = width
-    @height = height
+    @width  = Integer width
+    @height = Integer height
     @grid = Array.new(@width) do
       Array.new(@height)
     end
   end
 
-  def store(product, position)
-    raise unless product.is_a?(Product)
+  def store(crate, position)
+    raise unless crate.is_a?(Crate)
     raise unless position.is_a?(Position)
-    raise OutOfBounds if x > @width || y > @height
 
     x, y = position.coordinates
+    raise OutOfBounds if x > @width || y > @height
     raise PositionOccupied unless @grid.dig(x, y).nil?
-    @grid[position.x][position.y] = product
+
+    @grid[position.x][position.y] = crate
+  end
+
+  def remove(position)
+    crate = @grid[position.x][position.y]
+    raise NoCrateHere if crate.nil?
+    @grid[position.x][position.y] = nil
+    crate
   end
 
   def positions_with_product_code(product_code)
     positions = []
     @grid.each_with_index do |row, x|
-      row.each_with_index do |product, y|
-        positions << Position.new(x, y) if product.code?(product_code)
+      row.each_with_index do |crate, y|
+        positions << Position.new(x, y) if crate.product_code?(product_code)
       end
     end
     positions

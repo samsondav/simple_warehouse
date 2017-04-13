@@ -70,7 +70,7 @@ class WarehouseGrid
   end
 
   def view
-    rendered = ''
+    rendered = String.new
 
     @grid.reverse_each do |row|
       row.each do |crate|

@@ -24,7 +24,7 @@ RSpec.describe Command do
     end
 
     it 'renders output' do
-      expect(Command.new('init 1 2')).to eq("Done")
+      expect(Command.new('init 1 2').execute).to eq("Done")
     end
   end
 
